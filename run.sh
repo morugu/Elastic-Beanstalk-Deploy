@@ -24,13 +24,14 @@ if [ ! -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION" ]; then
 fi
 
 info 'Installing pip...'
+sudo apt-get update
 sudo apt-get install -y python-pip libpython-all-dev
 
 info 'Installing the AWS CLI...';
 sudo pip install awscli;
 
 info 'EB Version...'
-eb --version
+aws --version
 
 mkdir -p $HOME/.aws
 echo '[default]' > $HOME/.aws/config
