@@ -7,16 +7,16 @@ keywords:
   - Deploy
   - Zip
 properties:
-  access-key:
+  key:
     type: string
     required: true
-  secret-key:
+  secret:
     type: string
     required: true
-  app-name:
+  app_name:
     type: string
     required: true
-  env-name:
+  env_name:
     type: string
     required: true
   region:
