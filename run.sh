@@ -30,7 +30,7 @@ fi
 
 info 'Installing pip...'
 sudo apt-get update
-sudo apt-get install -y python-pip libpython-all-dev
+sudo apt-get install -y python-pip libpython-all-dev zip
 
 info 'Installing the AWS CLI...';
 sudo pip install awscli;
@@ -57,3 +57,5 @@ zip -r $AWS_APP_FILENAME .
 aws s3 cp --acl private $AWS_APP_FILENAME s3://$WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET/$AWS_APP_FILENAME
 
 ls -la
+
+
