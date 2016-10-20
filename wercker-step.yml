@@ -1,5 +1,5 @@
 name: elastic-beanstalk-deploy
-version: "0.1.5"
+version: "0.1.6"
 description: Deploy your application to an already existing Elastic Beanstalk instance using a zip of the application
 keywords:
   - AWS
@@ -20,4 +20,7 @@ properties:
     type: string
     required: true
   region:
+    type: string
+    require: true
+  bucket:
     type: string
