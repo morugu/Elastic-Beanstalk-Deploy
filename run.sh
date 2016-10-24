@@ -25,7 +25,7 @@ fi
 
 if [ ! -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET" ]; then
   #set default bucket as elasticbeanstalk
-  export WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET="wercker-deploy"
+  export WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET="wercker-deployments"
 fi
 
 info 'Installing pip...'
@@ -54,8 +54,24 @@ export AWS_APP_FILENAME=$AWS_APP_VERSION_LABEL.zip
 
 zip -r $AWS_APP_FILENAME .
 
-aws s3 cp --acl private $AWS_APP_FILENAME s3://$WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET/$AWS_APP_FILENAME
+if [ ! -f $AWS_APP_FILENAME ]; then
+  error 'Zip could not be created'
+  exit 1
+fi
+
+aws s3 cp --acl private $AWS_APP_FILENAME s3://$WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET
 
 ls -la
 
+aws elasticbeanstalk create-application-version \
+    --application-name $WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME \
+    --version-label $AWS_APP_VERSION_LABEL \
+    --region $WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION \
+    --description $EB_DESCRIPTION \
+    --source-bundle "{\"S3Bucket\":\"$WERCKER_EB_DEPLOY_S3_BUCKET\", \"S3Key\":\"$AWS_APP_FILENAME\"}"
 
+aws elasticbeanstalk update-environment \
+    --application-name $WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME
+    --environment-name $WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME \
+    --description $EB_DESCRIPTION, $WERCKER_GIT_COMMIT \
+    --version-label $AWS_APP_VERSION_LABEL
