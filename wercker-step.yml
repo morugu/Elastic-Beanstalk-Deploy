@@ -1,5 +1,5 @@
 name: elastic-beanstalk-deploy
-version: "0.1.12"
+version: "0.1.13"
 description: Deploy your application to an already existing Elastic Beanstalk instance using a zip of the application
 keywords:
   - AWS
