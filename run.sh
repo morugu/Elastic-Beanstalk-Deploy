@@ -68,7 +68,7 @@ aws elasticbeanstalk create-application-version \
     --version-label $AWS_APP_VERSION_LABEL \
     --region $WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION \
     --description $EB_DESCRIPTION \
-    --source-bundle "{\"S3Bucket\":\"$WERCKER_EB_DEPLOY_S3_BUCKET\", \"S3Key\":\"$AWS_APP_FILENAME\"}"
+    --source-bundle S3Bucket=$WERCKER_EB_DEPLOY_S3_BUCKET,S3Key=$AWS_APP_FILENAME
 
 aws elasticbeanstalk update-environment \
     --application-name $WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME
