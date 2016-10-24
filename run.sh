@@ -61,8 +61,6 @@ fi
 
 aws s3 cp --acl private $AWS_APP_FILENAME s3://$WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET
 
-ls -la
-
 aws elasticbeanstalk create-application-version \
     --application-name $WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME \
     --version-label $AWS_APP_VERSION_LABEL \
@@ -70,10 +68,7 @@ aws elasticbeanstalk create-application-version \
     --description $EB_DESCRIPTION \
     --source-bundle S3Bucket="$WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET",S3Key="$AWS_APP_FILENAME"
 
-echo S3Bucket="$WERCKER_ELASTIC_BEANSTALK_DEPLOY_BUCKET",S3Key="$AWS_APP_FILENAME"
-
 aws elasticbeanstalk update-environment \
     --application-name $WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME \
     --environment-name $WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME \
-    --description $EB_DESCRIPTION, $WERCKER_GIT_COMMIT \
     --version-label $AWS_APP_VERSION_LABEL
